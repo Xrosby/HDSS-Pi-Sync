@@ -1,39 +1,39 @@
 #Install and update Raspbian
-sudo apt-get update
-sudo apt-get upgrade
+apt-get update
+apt-get upgrade
 
 #Install hostapd and dsnmasq
-sudo apt-get install hostapd
-sudo apt-get install dnsmasq
+apt-get install hostapd
+apt-get install dnsmasq
 
 #Turn off hostapd and dsnmasq to make it possible to edit configuration files
-sudo systemctl stop hostapd
-sudo systemctl stop dnsmasq
+systemctl stop hostapd
+systemctl stop dnsmasq
 
 #Create configuration files for dhcpcd
-sudo touch /etc/dhcpcd.conf
+touch /etc/dhcpcd.conf
 
 #Configure a static IP for the wlan0 interface
-sudo echo "interface wlan0
+echo "interface wlan0
 static ip_address=192.168.0.10/24
 denyinterfaces eth0
 denyinterfaces wlan0" >> /etc/dhcpcd.conf
 
 #Create backup of original dnsmasq config file
-sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 
 #Create new dnsmasq file
-sudo touch /etc/dnsmasq.conf
+touch /etc/dnsmasq.conf
 
 #Append new lines to dsnmasq config
-sudo echo "interface=wlan0
+echo "interface=wlan0
 dhcp-range=192.168.0.11,192.168.0.30,255.255.255.0,24h" >> /etc/dnsmasq.conf
 
 #Create the access point host software configuration file (hostapd)
-sudo touch /etc/hostapd/hostapd.conf
+touch /etc/hostapd/hostapd.conf
 
 #Append configuration to access point host software (hostapd) config file
-sudo echo "interface=wlan0
+echo "interface=wlan0
 bridge=br0
 hw_mode=g
 channel=7
@@ -77,17 +77,17 @@ sed -i "s/$search_f/$replace_f/" $filename_f
 fi
 
 #Add a new iptables rule
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
-sudo iptables-restore < /etc/iptables.ipv4.nat
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sh -c "iptables-save > /etc/iptables.ipv4.nat"
+iptables-restore < /etc/iptables.ipv4.nat
 
 #Enable internet connection
-sudo apt-get install bridge-utils
-sudo brctl addbr br0
-sudo brctl addif br0 eth0
+apt-get install bridge-utils
+brctl addbr br0
+brctl addif br0 eth0
 
 
-sudo echo "auto br0
+echo "auto br0
 iface br0 inet manual
 bridge_ports eth0 wlan0" >> /etc/network/interfaces
 

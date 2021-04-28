@@ -1,7 +1,9 @@
 version: '2'
 services:
     pisync:
-        build: .
+        build:
+          context: .
+          dockerfile: Dockerfile
         ports:
                - "5000:5000"
         volumes:
