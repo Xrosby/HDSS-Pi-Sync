@@ -6,6 +6,7 @@ apt -y upgrade
 apt install -y git
 git clone https://github.com/Xrosby/HDSS-Pi-Sync.git
 
+apt -y install  python3-pip
 #Install hostapd and dsnmasq
 apt -y install hostapd
 
