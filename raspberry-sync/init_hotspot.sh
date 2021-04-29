@@ -59,3 +59,25 @@ truncate -s 0 /etc/default/hostapd
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 
 rfkill unblock wlan
+
+#Create service for pisync server
+echo "[Unit]
+Description=Sync and backup server for Bandim HDSS data collection tablets
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 HDSS-Pi-Sync/raspberry-sync/__init__.py
+WorkingDirectory=/home/pi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target" >> /etc/systemd/system/bandimsyncserver.service
+
+systemctl daemon-reload
+systemctl enable bandimsyncserver
+
+#Reboot the pi and service will start
+reboot
