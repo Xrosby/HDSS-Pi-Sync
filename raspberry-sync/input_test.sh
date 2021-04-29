@@ -1,16 +1,19 @@
+SSID="admin"
+WPA_PASS="admin"
 
+set_ap() {
+    read -p "What is your SSID?    " ssid_input
+    read -p "What is your WPA_PASS?    " wpa_input
 
-
-get_full_name () {
-    read -p "What is your firstname?    " firstname
-    read -p "What is your lastname?    " lastname
-
-    read -p "Are you sure your name is ${firstname} ${lastname}? (y/n)" answer
-    if [$answer == "y"]
+    read -p "Are you sure your AP is ${ssid_input} with pass ${wpa_input}? (y/n)" answer
+    if [ "$answer" = "y" ];
     then 
-        echo "Hello ${firstname}"
+        SSID="${ssid_input}"
+        WPA_PASS="${wpa_input}"
+        echo "SSID: ${SSID}    WPA_PASS: ${WPA_PASS}"
     else 
-        get_full_name
+        set_ap
+    fi
 }
 
-get_full_name
+set_ap
