@@ -3,7 +3,7 @@ apt -y update
 apt -y upgrade
 
 #Install git and clone sync code
-apt install git
+apt install -y git
 git clone https://github.com/Xrosby/HDSS-Pi-Sync.git
 
 #Install hostapd and dsnmasq
@@ -58,7 +58,6 @@ rsn_pairwise=CCMP" >> /etc/hostapd/hostapd.conf
 truncate -s 0 /etc/default/hostapd
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 
-rfkill unblock wlan
 
 #Create service for pisync server
 echo "[Unit]
@@ -80,4 +79,6 @@ systemctl daemon-reload
 systemctl enable bandimsyncserver
 
 #Reboot the pi and service will start
+rfkill unblock wlan
+
 reboot
