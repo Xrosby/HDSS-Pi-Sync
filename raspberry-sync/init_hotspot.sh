@@ -73,6 +73,19 @@ mv /etc/default/hostapd /etc/default/hostapd.old
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 
 
+
+# SETTING UP NET FORWARDING
+mv /etc/sysctl.d/routed-ap.conf /etc/sysctl.d/routed-ap.conf.old
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.d/routed-ap.conf
+
+DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+netfilter-persistent save
+
+
+
 #Create service for pisync server, moving the old one so we dont append to the service file
 mv /etc/systemd/system/bandimsyncserver.service /etc/systemd/system/bandimsyncserver.service.old
 echo "[Unit]
