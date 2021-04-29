@@ -4,6 +4,11 @@ apt -y upgrade
 
 #Install git and clone sync code
 apt install -y git
+
+#Remove repository if it already exists
+rm -r HDSS-Pi-Sync
+
+#Get sync server repository
 git clone https://github.com/Xrosby/HDSS-Pi-Sync.git
 
 apt install -y  python3-pip
@@ -14,8 +19,6 @@ systemctl unmask hostapd
 systemctl enable hostapd
 
 apt install -y dnsmasq
-
-
 
 #Turn off hostapd and dsnmasq to make it possible to edit configuration files
 systemctl stop hostapd
