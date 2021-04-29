@@ -66,8 +66,8 @@ Description=Sync and backup server for Bandim HDSS data collection tablets
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 HDSS-Pi-Sync/raspberry-sync/__init__.py
-WorkingDirectory=/home/pi
+ExecStart=/bin/bash start_sync_server.sh
+WorkingDirectory=/home/pi/HDSS-Pi-Sync/raspberry-sync
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -78,8 +78,5 @@ WantedBy=multi-user.target" >> /etc/systemd/system/bandimsyncserver.service
 
 systemctl daemon-reload
 systemctl enable bandimsyncserver
-
-#Reboot the pi and service will start
-rfkill unblock wlan
 
 reboot
