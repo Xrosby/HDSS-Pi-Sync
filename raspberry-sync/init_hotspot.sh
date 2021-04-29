@@ -6,14 +6,14 @@ apt -y upgrade
 apt install -y git
 git clone https://github.com/Xrosby/HDSS-Pi-Sync.git
 
-apt -y install  python3-pip
+apt install -y  python3-pip
 #Install hostapd and dsnmasq
-apt -y install hostapd
+apt install -y hostapd
 
 systemctl unmask hostapd
 systemctl enable hostapd
 
-apt -y install dnsmasq
+apt install -y dnsmasq
 
 
 
@@ -22,13 +22,21 @@ systemctl stop hostapd
 systemctl stop dnsmasq
 
 #Configure a static IP for the wlan0 interface
-echo "interface wlan0
+echo "hostname
+clientid
+persistent
+option rapid_commit
+option domain_name_servers, domain_name, domain_search, host_name
+option classless_static_routes
+option interface_mtu
+require dhcp_server_identifier
+slaac private
+
+interface wlan0
     static ip_address=192.168.4.1/24" >> /etc/dhcpcd.conf
 
 #Create backup of original dnsmasq config file
-mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-
-
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.old
 
 # add content to DNSMASQ file
 echo "interface=wlan0
@@ -38,6 +46,8 @@ address=/gw.wlan/192.168.4.1" >> /etc/dnsmasq.conf
 
 
 #Append configuration to access point host software (hostapd) config file
+# moving the possibly existing file, so we don't append
+mv /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.old 
 echo "country_code=DK
 interface=wlan0
 ssid=hdssbandimpi
@@ -55,12 +65,13 @@ rsn_pairwise=CCMP" >> /etc/hostapd/hostapd.conf
 
 
 #Point to the hostapd config file
-# Assign the filename
-truncate -s 0 /etc/default/hostapd
+# moving the possibly existing file, so we dont append
+mv /etc/default/hostapd /etc/default/hostapd.old
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 
 
-#Create service for pisync server
+#Create service for pisync server, moving the old one so we dont append to the service file
+mv /etc/systemd/system/bandimsyncserver.service /etc/systemd/system/bandimsyncserver.service.old
 echo "[Unit]
 Description=Sync and backup server for Bandim HDSS data collection tablets
 After=network.target
