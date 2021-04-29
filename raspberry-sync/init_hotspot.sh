@@ -29,7 +29,7 @@ address=/gw.wlan/192.168.4.1" >> /etc/dnsmasq.conf
 #Append configuration to access point host software (hostapd) config file
 echo "country_code=DK
 interface=wlan0
-ssid=hdss-bandim-pi
+ssid=hdssbandimpi
 hw_mode=g
 channel=7
 macaddr_acl=0
@@ -37,7 +37,7 @@ auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
 driver=nl80211
-wpa_passphrase=almbandim
+wpa_passphrase=hdssbandim123
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP" >> /etc/hostapd/hostapd.conf
