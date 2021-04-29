@@ -74,6 +74,7 @@ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 # SETTING UP NET FORWARDING
 mv /etc/sysctl.d/routed-ap.conf /etc/sysctl.d/routed-ap.conf.old
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.d/routed-ap.conf
+
 DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
