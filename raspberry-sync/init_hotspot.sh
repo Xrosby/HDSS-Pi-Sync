@@ -1,10 +1,15 @@
 #Install and update Raspbian
-apt-get update
-apt-get upgrade
+apt update
+apt upgrade
+
+
+apt install git
+
+git clone https://github.com/Xrosby/HDSS-Pi-Sync.git
 
 #Install hostapd and dsnmasq
-apt-get install hostapd
-apt-get install dnsmasq
+apt install hostapd
+apt install dnsmasq
 
 #Turn off hostapd and dsnmasq to make it possible to edit configuration files
 systemctl stop hostapd
