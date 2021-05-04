@@ -3,7 +3,7 @@ import requests
 
 DUMP_ROOT_FOLDER = "dumps"
 FILE_NAME = "dump"
-MAIN_SERVER_SYNC_ENDPOINT = "https://hdss.bandim.sdu.dk:5000/api/survey/sync_with_dk"
+MAIN_SERVER_SYNC_ENDPOINT = "https://hdss.bandim.sdu.dk/api/survey/sync_with_dk"
 #MAIN_SERVER_SYNC_ENDPOINT = "http://192.168.1.10:5000/api/survey/sync_with_dk"
 FULL_PATH = os.path.dirname(__file__) + "/dumps"
 
