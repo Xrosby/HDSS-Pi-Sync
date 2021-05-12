@@ -1,6 +1,7 @@
 from flask import Flask, request
 from data_sync import data_sync, sync_main_server
 import subprocess
+import threading
 
 app = Flask(__name__)
 
@@ -29,14 +30,29 @@ def ping():
     return "Ping!"
 
 
+
+
+def delayed_restart_func():
+    import time
+    time.sleep(5)
+    subprocess.call("sudo reboot", shell=True)
+
 @app.route("/restart", methods=["GET"])
 def restart():
-    subprocess.call("sudo reboot", shell=True)
+    #subprocess.call("sudo reboot", shell=True)
+    threading.Thread(target=delayed_restart_func).start()
     return
+
+
+def delayed_shutdown_func():
+    import time
+    time.sleep(5)
+    subprocess.call("sudo shutdown now", shell=True)
 
 @app.route("/shutdown", methods=["GET"])
 def shutdown():
-    subprocess.call("sudo shutdown now", shell=True)
+    #subprocess.call("sudo shutdown now", shell=True)
+    threading.Thread(target=delayed_shutdown_func).start()
     return
 
 
