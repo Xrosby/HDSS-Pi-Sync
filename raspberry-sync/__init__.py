@@ -22,7 +22,7 @@ def sync_with_dk():
 def get_dump():
     tablet_id = request.args.get("tablet_id")
     print(tablet_id)
-    return 
+    return
 
 
 @app.route("/ping", methods=["GET"])
@@ -41,7 +41,7 @@ def delayed_restart_func():
 def restart():
     #subprocess.call("sudo reboot", shell=True)
     threading.Thread(target=delayed_restart_func).start()
-    return
+    return "Restart initaited", 200
 
 
 def delayed_shutdown_func():
@@ -53,7 +53,7 @@ def delayed_shutdown_func():
 def shutdown():
     #subprocess.call("sudo shutdown now", shell=True)
     threading.Thread(target=delayed_shutdown_func).start()
-    return
+    return "Shutdown initiated", 200
 
 
 
