@@ -10,6 +10,12 @@
         "name": "lHunniche"
       }
     ],
-    "diagrams": []
+    "diagrams": [
+      {
+        "title": "Threat model",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0
+      }
+    ]
   }
 }
