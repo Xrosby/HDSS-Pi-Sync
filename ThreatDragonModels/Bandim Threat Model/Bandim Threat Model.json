@@ -1,0 +1,15 @@
+{
+  "summary": {
+    "title": "Bandim Threat Model",
+    "owner": "Lasse og Mads",
+    "description": "A data collection system for the Bandim Health Project"
+  },
+  "detail": {
+    "contributors": [
+      {
+        "name": "lHunniche"
+      }
+    ],
+    "diagrams": []
+  }
+}
