@@ -4,7 +4,6 @@ import requests
 DUMP_ROOT_FOLDER = "dumps"
 FILE_NAME = "dump"
 MAIN_SERVER_SYNC_ENDPOINT = "https://hdss.bandim.sdu.dk/api/survey/sync_with_dk"
-#MAIN_SERVER_SYNC_ENDPOINT = "http://192.168.1.10:5000/api/survey/sync_with_dk"
 FULL_PATH = os.path.dirname(__file__) + "/dumps"
 
 
@@ -13,7 +12,7 @@ def check_and_create_folder(dir_):
         os.makedirs(dir_)
 
 
-def data_sync(tablet_id, dump):
+def write_dump_to_disc(tablet_id, dump):
     file_path = DUMP_ROOT_FOLDER + "/" + tablet_id + "_" + FILE_NAME
     check_and_create_folder(DUMP_ROOT_FOLDER)
     dump_file = open(file_path, "wb")
@@ -41,7 +40,7 @@ def get_all_dumps():
     return dumps
 
 
-def sync_main_server(token):
+def upload_dumps_to_server(token):
     dumps = get_all_dumps()
     if len(dumps) == 0:
         return "No dumps", 204
@@ -61,14 +60,11 @@ def sync_main_server(token):
         if response.status_code != 200:
             sync_success = False
     
-
     if sync_success:
         from subprocess import call
         import os
         if not os.path.exists(os.getcwd() + "/transferred-dumps"):
             os.mkdir("transferred-dumps")
         call("sudo mv {} {}".format(os.getcwd() + "/dumps/*", os.getcwd() + "/transferred-dumps"), shell=True)
-        print("all good")
         return "All went well", 200
-    print("oh shit")
     return "One or more DB transfers failed", 400

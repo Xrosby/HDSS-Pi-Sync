@@ -1,5 +1,5 @@
 from flask import Flask, request
-from data_sync import data_sync, sync_main_server
+from data_sync import write_dump_to_disc, upload_dumps_to_server
 import subprocess
 import threading
 
@@ -10,12 +10,12 @@ app = Flask(__name__)
 def sync():
     tablet_id = request.args.get("tablet_id")
     dump = request.data
-    return data_sync(tablet_id, dump)
+    return write_dump_to_disc(tablet_id, dump)
 
 @app.route("/sync_with_dk", methods=["POST"])
 def sync_with_dk():
     token = request.json.get("jwt")
-    return sync_main_server(token)
+    return upload_dumps_to_server(token)
 
 
 @app.route("/get_dump")
@@ -39,7 +39,6 @@ def delayed_restart_func():
 
 @app.route("/restart", methods=["GET"])
 def restart():
-    #subprocess.call("sudo reboot", shell=True)
     threading.Thread(target=delayed_restart_func).start()
     return "Restart initaited", 200
 
@@ -51,13 +50,8 @@ def delayed_shutdown_func():
 
 @app.route("/shutdown", methods=["GET"])
 def shutdown():
-    #subprocess.call("sudo shutdown now", shell=True)
     threading.Thread(target=delayed_shutdown_func).start()
     return "Shutdown initiated", 200
-
-
-
-
 
 
 
